@@ -10,139 +10,192 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
-const
-  hexDigit = /[0-9a-fA-F]/,
-  hexDigits = seq(hexDigit, repeat(seq(optional('_'), hexDigit))),
-  // example: 2022-12-25
-  rfc3339_date = /([0-9]+)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])/,
-  // example: 25/12/2022
-  cultural_date = /(0[1-9]|[12][0-9]|3[01])[-\./](0[1-9]|1[012])[-\./]([0-9]+)/,
-  rfc3339_delimiter = /[ tT]/,
-  // example: 09:29:02
-  rfc3339_time = /([01][0-9]|2[0-3]):([0-5][0-9])(:([0-5][0-9]|60))?([\.,][0-9]+)?/,
-  rfc3339_offset = /([zZ])|([+-]([01][0-9]|2[0-3]):[0-5][0-9])/;
-
 module.exports = grammar({
   name: 'log',
   // word: $ => $.word,
 
   rules: {
-    log_file: $ => repeat(
-      choice(
-        $.log_level,
-        $.date,
-        $.string_literal,
-        $.number,
-        $.constant,
-        $._word_separator,
-        $.word,
+    log_file: ($) =>
+      repeat(
+        choice(
+          $.log_level,
+          $.date,
+          $.string_literal,
+          $.number,
+          $.constant,
+          $._word_separator,
+          $.word,
+        ),
       ),
-    ),
 
     // Log level detection.
-    log_level: $ => choice(
-      $.trace,
-      $.debug,
-      $.info,
-      $.warn,
-      $.error,
-    ),
-    trace: $ => choice('trace:', 'Trace', 'TRACE', '[trace]', 'Verbose', 'VERBOSE', '[verbose]', 'V/', '[verb]', '[vrb]', '[vb]', '[v]', 'V/'),
-    debug: $ => choice('debug:', 'Debug', 'DEBUG', 'D/', '[dbug]', '[dbg]', '[de]', '[d]'),
-    info: $ => choice('information:', 'Info', 'INFO', 'INFORMATION', 'NOTICE', 'I/', '[info]', '[inf]', '[in]', '[i]'),
-    warn: $ => choice('warning:', 'Warn', 'WARN', 'WARNING', 'W/', 'Warning', '[warn]', '[wrn]', '[wn]', '[w]'),
-    error: $ => choice('error:', 'Error', 'ERROR', 'ALERT', 'CRITICAL', 'EMERGENCY', 'FAILURE', 'FAIL', 'Fatal', 'FATAL', 'E/', '[eror]', '[err]', '[er]', '[e]'),
-
+    log_level: ($) => choice($.trace, $.debug, $.info, $.warn, $.error),
+    trace: ($) =>
+      choice(
+        'trace:',
+        'trace ',
+        'Trace',
+        'TRACE',
+        '[trace]',
+        'Verbose',
+        'VERBOSE',
+        '[verbose]',
+        'V/',
+        '[verb]',
+        '[vrb]',
+        '[vb]',
+        '[v]',
+        'V/',
+      ),
+    debug: ($) =>
+      choice(
+        'debug:',
+        'debug ',
+        'Debug',
+        'DEBUG',
+        'D/',
+        '[debug]',
+        '[dbug]',
+        '[dbg]',
+        '[de]',
+        '[d]',
+      ),
+    info: ($) =>
+      choice(
+        'information:',
+        'info ',
+        'INFO',
+        'INFORMATION',
+        'NOTICE',
+        'I/',
+        '[info]',
+        '[inf]',
+        '[in]',
+        '[i]',
+      ),
+    warn: ($) =>
+      choice(
+        'warning:',
+        'warning ',
+        'Warn',
+        'WARN',
+        'WARNING',
+        'W/',
+        'Warning',
+        '[warning]',
+        '[warn]',
+        '[wrn]',
+        '[wn]',
+        '[w]',
+      ),
+    error: ($) =>
+      choice(
+        'error:',
+        'error ',
+        'Error',
+        'ERROR',
+        'ALERT',
+        'CRITICAL',
+        'EMERGENCY',
+        'FAILURE',
+        'FAIL',
+        'Fatal',
+        'FATAL',
+        'E/',
+        '[critical]',
+        '[error]',
+        '[err]',
+        '[er]',
+        '[e]',
+      ),
 
     // Date and time detection.
-    date: $ => choice(
-      $.year_month_day,
-      $.time,
-    ),
-    year_month_day: $ => token(seq(choice(rfc3339_date, cultural_date), prec(50, optional(rfc3339_delimiter)))),
-    time: $ => choice(
-      $._time_with_offset,
-      $._time_without_offset,
-    ),
-    _time_with_offset: $ => token(seq(rfc3339_time, optional(' '), rfc3339_offset)),
-    _time_without_offset: $ => token(rfc3339_time),
+    date: ($) => choice($.year_month_day, $.time),
+    year_month_day: ($) =>
+      token(
+        choice(
+          // 2023-01-01, 2023/01/01, 2023.01.01, 2023-01-01T
+          /\d{4}[-\/\.](0[1-9]|1[0-2]|[A-Za-z]{3,9})[-\/\.](0[1-9]|[12][0-9]|3[01])(T)?/,
+          // 2023/Jan/01
+          /\d{4}[-\/\.](Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[-\/\.](0[1-9]|[12][0-9]|3[01])(T)?/i,
+          // 01-01-2023, 01/01/2023, 01-Jan-2023
+          /(0[1-9]|[12][0-9]|3[01])[-\/\.](0[1-9]|1[0-2]|[A-Za-z]{3,9})[-\/\.]\d{4}/,
+          // Jan 01, Dec 31
+          /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(0[1-9]|[12][0-9]|3[01])/i,
+          // Jan 01, 2023
+          /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(0[1-9]|[12][0-9]|3[01]),?\s\d{4}/i,
+        ),
+      ),
 
-    constant: $ => choice('true', 'True', 'false', 'False', 'null'),
+    time: ($) =>
+      token(
+        choice(
+          // 10:33:00 AM, 10:33:00 pm
+          /([01]?\d|2[0-3]):[0-5]\d:[0-5]\d(\.\d+)?\s?(AM|PM|am|pm)/,
+          // 10:33:00.960249 +08:00, 10:33:00.960249+08:00, 10:33:00.960249Z
+          /([01]?\d|2[0-3]):[0-5]\d:[0-5]\d(\.\d+)?\s?([zZ]|([+-](0\d|1\d|2[0-3]):[0-5]\d))/,
+          // 10:33:00.960249
+          /([01]?\d|2[0-3]):[0-5]\d:[0-5]\d(\.\d+)?/,
+          // 10:33:00
+          /([01]?\d|2[0-3]):[0-5]\d:[0-5]\d/,
+          // 10:33:02.263 UTC, 10:33:02.263 UTC+03:00, 10:33:02.263 UTC-03:00, 10:33:02.263 EST
+          /([01]?\d|2[0-3]):[0-5]\d:[0-5]\d(\.\d+)?\s?((UTC|GMT)([+-]\d{2}:?\d{2})?|(E|C|M|P)(S|D)T)?/,
+        ),
+      ),
+
+    constant: ($) =>
+      choice(
+        'true',
+        'True',
+        'TRUE',
+        'false',
+        'False',
+        'FALSE',
+        'null',
+        'Null',
+        'NULL',
+      ),
 
     // String literal detection.
-    // https://github.com/tree-sitter/tree-sitter-go/blob/bbaa67a180cfe0c943e50c55130918be8efb20bd/grammar.js#L850C1-L880C8
-    string_literal: $ => choice(
-      $._raw_string_literal,
-      $._interpreted_double_string,
-      $._interpreted_single_string,
-    ),
-
-    _raw_string_literal: _ => token(seq(
-      '`',
-      repeat(/[^`]/),
-      '`',
-    )),
-    _interpreted_double_string: $ => seq(
-      '"',
-      repeat(choice(
-        $._interpreted_double_string_basic_content,
-        $._escape_sequence,
-      )),
-      token.immediate('"'),
-    ),
-    _interpreted_double_string_basic_content: _ => token.immediate(prec(1, /[^"\n\\]+/)),
-    _escape_sequence: _ => token.immediate(seq(
-      '\\',
+    string_literal: ($) =>
       choice(
-        /[^xuU]/,
-        /\d{2,3}/,
-        /x[0-9a-fA-F]{2,}/,
-        /u[0-9a-fA-F]{4}/,
-        /U[0-9a-fA-F]{8}/,
+        $._raw_string_literal,
+        $._interpreted_double_string,
+        $._interpreted_single_string,
       ),
-    )),
 
-    _interpreted_single_string: $ => seq(
-      token(prec(50, '\'')),
-      repeat(choice(
-        $._interpreted_single_string_basic_content,
-        $._escape_sequence,
-      )),
-      token.immediate('\''),
-    ),
-    _interpreted_single_string_basic_content: _ => token.immediate(prec(1, /[^'\n\\]+/)),
+    _raw_string_literal: (_) => token(/`[^`]*`/),
 
-    // Number, ipv6, git hash..
-    number: $ => choice(
-      token(sep1(hexDigits, /[-\./:_](:)?/)),
+    _interpreted_double_string: (_) =>
+      token(/"([^"\\\n]|\\.)*"/),
+    
+    _interpreted_single_string: (_) =>
+      token(/'([^'\\\n]|\\.)*'/),
+
+    // number
+    number: ($) =>
       choice(
-        /\d+/,
-        /[0-9a-fA-F]{40}/,
-        /[0-9a-fA-F]{32}/,
-        /[0-9a-fA-F]{10}/,
-        /[0-9a-fA-F]{7}/,
-        /0x[a-fA-F0-9]+/),
-    ),
+        // Binary: 0b0101, 0B1010, 'b1010
+        token(/0[bB][01]+/),
+        token(/'b[01]+/),
+        // Octal: 0o123, 0O123, 'o123
+        token(/0[oO][0-7]+/),
+        token(/'o[0-7]+/),
+        // Decimal: 'd123456, 123456, 7.6603, 123.4567e-10, 123.4567E+10
+        token(/'d\d+/),
+        token(/\d+\.\d+([eE][+-]?\d+)?/),
+        token(/\d+([eE][+-]?\d+)?/),
+        // Hex: 0x123, 0X123, 'h123, 0xc0ffee, 0X1234567890ABCEDF, 'h1234567890ABCEDF
+        token(/0[xX][0-9a-fA-F]+/),
+        token(/'h[0-9a-fA-F]+/),
+      ),
 
-    _word_separator: $ => choice(
-      '(',
-      ')',
-      '[',
-      ']',
-      '{',
-      '}',
-      '=',
-      '"',
-      ',',
-      ':',
-      '/',
-      '-',
-    ),
+    _word_separator: ($) =>
+      choice('(', ')', '[', ']', '{', '}', '=', '"', ',', ':', '/', '-'),
     // Match all other things in the log which are not highlighted
     // Excluded token alllow to match inside word.
-    word: $ => /[^()\[\]{}="\s,:\-/]+/,
+    word: ($) => /[^()\[\]{}="\s,:\-/]+/,
   },
-
 });
 
 /**
@@ -155,6 +208,6 @@ module.exports = grammar({
  * @return {SeqRule}
  *
  */
-function sep1(rule, separator) {
-  return seq(rule, repeat1(seq(separator, rule)));
-}
+// function sep1(rule, separator) {
+//   return seq(rule, repeat1(seq(separator, rule)));
+// }

@@ -115,11 +115,6 @@
     "fields": {}
   },
   {
-    "type": "time",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "trace",
     "named": true,
     "fields": {}
@@ -131,10 +126,6 @@
   },
   {
     "type": "\"",
-    "named": false
-  },
-  {
-    "type": "'",
     "named": false
   },
   {
@@ -210,6 +201,10 @@
     "named": false
   },
   {
+    "type": "FALSE",
+    "named": false
+  },
+  {
     "type": "FATAL",
     "named": false
   },
@@ -234,15 +229,23 @@
     "named": false
   },
   {
-    "type": "Info",
-    "named": false
-  },
-  {
     "type": "NOTICE",
     "named": false
   },
   {
+    "type": "NULL",
+    "named": false
+  },
+  {
+    "type": "Null",
+    "named": false
+  },
+  {
     "type": "TRACE",
+    "named": false
+  },
+  {
+    "type": "TRUE",
     "named": false
   },
   {
@@ -290,6 +293,10 @@
     "named": false
   },
   {
+    "type": "[critical]",
+    "named": false
+  },
+  {
     "type": "[d]",
     "named": false
   },
@@ -306,6 +313,10 @@
     "named": false
   },
   {
+    "type": "[debug]",
+    "named": false
+  },
+  {
     "type": "[e]",
     "named": false
   },
@@ -314,11 +325,11 @@
     "named": false
   },
   {
-    "type": "[eror]",
+    "type": "[err]",
     "named": false
   },
   {
-    "type": "[err]",
+    "type": "[error]",
     "named": false
   },
   {
@@ -370,6 +381,10 @@
     "named": false
   },
   {
+    "type": "[warning]",
+    "named": false
+  },
+  {
     "type": "[wn]",
     "named": false
   },
@@ -382,7 +397,15 @@
     "named": false
   },
   {
+    "type": "debug ",
+    "named": false
+  },
+  {
     "type": "debug:",
+    "named": false
+  },
+  {
+    "type": "error ",
     "named": false
   },
   {
@@ -394,6 +417,10 @@
     "named": false
   },
   {
+    "type": "info ",
+    "named": false
+  },
+  {
     "type": "information:",
     "named": false
   },
@@ -402,11 +429,23 @@
     "named": false
   },
   {
+    "type": "time",
+    "named": true
+  },
+  {
+    "type": "trace ",
+    "named": false
+  },
+  {
     "type": "trace:",
     "named": false
   },
   {
     "type": "true",
+    "named": false
+  },
+  {
+    "type": "warning ",
     "named": false
   },
   {

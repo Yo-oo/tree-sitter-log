@@ -4,5 +4,5 @@
     "target": "es2021",
     "checkJs": true
   },
-  "include": "grammar.js"
+  "include": ["grammar.js"]
 }
