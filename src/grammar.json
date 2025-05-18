@@ -33,6 +33,10 @@
           {
             "type": "SYMBOL",
             "name": "word"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "objects"
           }
         ]
       }
@@ -611,6 +615,191 @@
     "word": {
       "type": "PATTERN",
       "value": "[^()\\[\\]{}=\"\\s,:\\-/]+"
+    },
+    "objects": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "url"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "file_path"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ipv4"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ipv6"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "mac"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "uuid"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "md5"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "sha1"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "sha224"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "sha256"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "sha384"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "sha512"
+        }
+      ]
+    },
+    "url": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "https?:\\/\\/[^\\s/$.?#].[^\\s]*"
+        }
+      }
+    },
+    "file_path": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "(~?\\/|\\.\\/|\\.\\.\\/)[^\\s,;]+"
+        }
+      }
+    },
+    "ipv4": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}(\\/\\d{1,2})?"
+        }
+      }
+    },
+    "ipv6": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "([0-9a-f]{1,4}:){7}[0-9a-f]{1,4}(\\/\\d{1,3})?"
+        }
+      }
+    },
+    "mac": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "([0-9a-f]{2}:){5}[0-9a-f]{2}"
+        }
+      }
+    },
+    "uuid": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+        }
+      }
+    },
+    "md5": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[a-f0-9]{32}"
+        }
+      }
+    },
+    "sha1": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[a-f0-9]{40}"
+        }
+      }
+    },
+    "sha224": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[a-f0-9]{56}"
+        }
+      }
+    },
+    "sha256": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[a-f0-9]{64}"
+        }
+      }
+    },
+    "sha384": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[a-f0-9]{96}"
+        }
+      }
+    },
+    "sha512": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[a-f0-9]{128}"
+        }
+      }
     }
   },
   "extras": [

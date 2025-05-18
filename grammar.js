@@ -25,6 +25,7 @@ module.exports = grammar({
           $.constant,
           $._word_separator,
           $.word,
+          $.objects,
         ),
       ),
 
@@ -166,11 +167,9 @@ module.exports = grammar({
 
     _raw_string_literal: (_) => token(/`[^`]*`/),
 
-    _interpreted_double_string: (_) =>
-      token(/"([^"\\\n]|\\.)*"/),
-    
-    _interpreted_single_string: (_) =>
-      token(/'([^'\\\n]|\\.)*'/),
+    _interpreted_double_string: (_) => token(/"([^"\\\n]|\\.)*"/),
+
+    _interpreted_single_string: (_) => token(/'([^'\\\n]|\\.)*'/),
 
     // number
     number: ($) =>
@@ -195,19 +194,58 @@ module.exports = grammar({
     // Match all other things in the log which are not highlighted
     // Excluded token alllow to match inside word.
     word: ($) => /[^()\[\]{}="\s,:\-/]+/,
+
+    // Match all objects in the log which are not highlighted
+    objects: ($) =>
+      choice(
+        $.url,
+        $.file_path,
+        $.ipv4,
+        $.ipv6,
+        $.mac,
+        $.uuid,
+        $.md5,
+        $.sha1,
+        $.sha224,
+        $.sha256,
+        $.sha384,
+        $.sha512,
+      ),
+
+    url: (_) => token(prec(1, /https?:\/\/[^\s/$.?#].[^\s]*/i)),
+
+    //  ./ ../ /home/user/file /etc/file ~/.local/bin/
+    file_path: (_) =>
+      token(prec(1, /(~?\/|\.\/|\.\.\/)[^\s,;]+/)),
+
+    ipv4: (_) =>
+      token(prec(1, /(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}(\/\d{1,2})?/)),
+
+    ipv6: (_) =>
+      token(prec(1, /([0-9a-f]{1,4}:){7}[0-9a-f]{1,4}(\/\d{1,3})?/i)),
+
+    mac: (_) =>
+      token(prec(1, /([0-9a-f]{2}:){5}[0-9a-f]{2}/i)),
+
+    uuid: (_) =>
+      token(prec(1, /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i)),
+
+    md5: (_) =>
+      token(prec(1, /[a-f0-9]{32}/i)),
+
+    sha1: (_) =>
+      token(prec(1, /[a-f0-9]{40}/i)),
+
+    sha224: (_) =>
+      token(prec(1, /[a-f0-9]{56}/i)),
+
+    sha256: (_) =>
+      token(prec(1, /[a-f0-9]{64}/i)),
+
+    sha384: (_) =>
+      token(prec(1, /[a-f0-9]{96}/i)),
+
+    sha512: (_) =>
+      token(prec(1, /[a-f0-9]{128}/i)),
   },
 });
-
-/**
- * Creates a rule to match one or more occurrences of `rule` separated by `sep`
- *
- * @param {RuleOrLiteral} rule
- *
- * @param {RuleOrLiteral} separator
- *
- * @return {SeqRule}
- *
- */
-// function sep1(rule, separator) {
-//   return seq(rule, repeat1(seq(separator, rule)));
-// }
