@@ -34,7 +34,6 @@ module.exports = grammar({
     trace: ($) =>
       choice(
         'trace:',
-        'trace ',
         'Trace',
         'TRACE',
         '[trace]',
@@ -51,7 +50,6 @@ module.exports = grammar({
     debug: ($) =>
       choice(
         'debug:',
-        'debug ',
         'Debug',
         'DEBUG',
         'D/',
@@ -64,7 +62,7 @@ module.exports = grammar({
     info: ($) =>
       choice(
         'information:',
-        'info ',
+        'info:',
         'INFO',
         'INFORMATION',
         'NOTICE',
@@ -215,37 +213,39 @@ module.exports = grammar({
     url: (_) => token(prec(1, /https?:\/\/[^\s/$.?#].[^\s]*/i)),
 
     //  ./ ../ /home/user/file /etc/file ~/.local/bin/
-    file_path: (_) =>
-      token(prec(1, /(~?\/|\.\/|\.\.\/)[^\s,;]+/)),
+    file_path: (_) => token(prec(1, /(~?\/|\.\/|\.\.\/)[^\s,;]+/)),
 
     ipv4: (_) =>
-      token(prec(1, /(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}(\/\d{1,2})?/)),
+      token(
+        prec(
+          1,
+          /(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}(\/\d{1,2})?/,
+        ),
+      ),
 
     ipv6: (_) =>
       token(prec(1, /([0-9a-f]{1,4}:){7}[0-9a-f]{1,4}(\/\d{1,3})?/i)),
 
-    mac: (_) =>
-      token(prec(1, /([0-9a-f]{2}:){5}[0-9a-f]{2}/i)),
+    mac: (_) => token(prec(1, /([0-9a-f]{2}:){5}[0-9a-f]{2}/i)),
 
     uuid: (_) =>
-      token(prec(1, /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i)),
+      token(
+        prec(
+          1,
+          /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i,
+        ),
+      ),
 
-    md5: (_) =>
-      token(prec(1, /[a-f0-9]{32}/i)),
+    md5: (_) => token(prec(1, /[a-f0-9]{32}/i)),
 
-    sha1: (_) =>
-      token(prec(1, /[a-f0-9]{40}/i)),
+    sha1: (_) => token(prec(1, /[a-f0-9]{40}/i)),
 
-    sha224: (_) =>
-      token(prec(1, /[a-f0-9]{56}/i)),
+    sha224: (_) => token(prec(1, /[a-f0-9]{56}/i)),
 
-    sha256: (_) =>
-      token(prec(1, /[a-f0-9]{64}/i)),
+    sha256: (_) => token(prec(1, /[a-f0-9]{64}/i)),
 
-    sha384: (_) =>
-      token(prec(1, /[a-f0-9]{96}/i)),
+    sha384: (_) => token(prec(1, /[a-f0-9]{96}/i)),
 
-    sha512: (_) =>
-      token(prec(1, /[a-f0-9]{128}/i)),
+    sha512: (_) => token(prec(1, /[a-f0-9]{128}/i)),
   },
 });
