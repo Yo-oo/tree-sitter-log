@@ -75,10 +75,6 @@
         },
         {
           "type": "STRING",
-          "value": "trace "
-        },
-        {
-          "type": "STRING",
           "value": "Trace"
         },
         {
@@ -136,10 +132,6 @@
         },
         {
           "type": "STRING",
-          "value": "debug "
-        },
-        {
-          "type": "STRING",
           "value": "Debug"
         },
         {
@@ -181,7 +173,7 @@
         },
         {
           "type": "STRING",
-          "value": "info "
+          "value": "info:"
         },
         {
           "type": "STRING",

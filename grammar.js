@@ -31,7 +31,7 @@ module.exports = grammar({
 
     // Log level detection.
     log_level: ($) => choice($.trace, $.debug, $.info, $.warn, $.error),
-    trace: ($) =>
+    trace: (_) =>
       choice(
         'trace:',
         'Trace',
@@ -47,7 +47,7 @@ module.exports = grammar({
         '[v]',
         'V/',
       ),
-    debug: ($) =>
+    debug: (_) =>
       choice(
         'debug:',
         'Debug',
@@ -59,7 +59,7 @@ module.exports = grammar({
         '[de]',
         '[d]',
       ),
-    info: ($) =>
+    info: (_) =>
       choice(
         'information:',
         'info:',
@@ -72,7 +72,7 @@ module.exports = grammar({
         '[in]',
         '[i]',
       ),
-    warn: ($) =>
+    warn: (_) =>
       choice(
         'warning:',
         'warning ',
@@ -87,7 +87,7 @@ module.exports = grammar({
         '[wn]',
         '[w]',
       ),
-    error: ($) =>
+    error: (_) =>
       choice(
         'error:',
         'error ',
@@ -110,7 +110,7 @@ module.exports = grammar({
 
     // Date and time detection.
     date: ($) => choice($.year_month_day, $.time),
-    year_month_day: ($) =>
+    year_month_day: (_) =>
       token(
         choice(
           // 2023-01-01, 2023/01/01, 2023.01.01, 2023-01-01T
@@ -126,7 +126,7 @@ module.exports = grammar({
         ),
       ),
 
-    time: ($) =>
+    time: (_) =>
       token(
         choice(
           // 10:33:00 AM, 10:33:00 pm
@@ -142,7 +142,7 @@ module.exports = grammar({
         ),
       ),
 
-    constant: ($) =>
+    constant: (_) =>
       choice(
         'true',
         'True',
@@ -170,7 +170,7 @@ module.exports = grammar({
     _interpreted_single_string: (_) => token(/'([^'\\\n]|\\.)*'/),
 
     // number
-    number: ($) =>
+    number: (_) =>
       choice(
         // Binary: 0b0101, 0B1010, 'b1010
         token(/0[bB][01]+/),
@@ -187,11 +187,11 @@ module.exports = grammar({
         token(/'h[0-9a-fA-F]+/),
       ),
 
-    _word_separator: ($) =>
+    _word_separator: (_) =>
       choice('(', ')', '[', ']', '{', '}', '=', '"', ',', ':', '/', '-'),
     // Match all other things in the log which are not highlighted
-    // Excluded token alllow to match inside word.
-    word: ($) => /[^()\[\]{}="\s,:\-/]+/,
+    // Excluded token allow to match inside word.
+    word: (_) => /[^()\[\]{}="\s,:\-/]+/,
 
     // Match all objects in the log which are not highlighted
     objects: ($) =>
