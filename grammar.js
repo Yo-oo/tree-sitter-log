@@ -1,6 +1,7 @@
 /**
  * @file Log grammar for tree-sitter
  * @author Tudy Gourmelen
+ * @author yo
  * @license MIT
  */
 
@@ -213,7 +214,8 @@ module.exports = grammar({
     url: (_) => token(prec(1, /https?:\/\/[^\s/$.?#].[^\s]*/i)),
 
     //  ./ ../ /home/user/file /etc/file ~/.local/bin/
-    file_path: (_) => token(prec(1, /(~?\/|\.\/|\.\.\/)[^\s,;]+/)),
+    file_path: (_) => token(prec(1, /(~?\/|\.\/|\.\.\/|[a-zA-Z]:\\)[^\s,;]+/)),
+
 
     ipv4: (_) =>
       token(
