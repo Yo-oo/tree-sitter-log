@@ -214,7 +214,11 @@ module.exports = grammar({
     url: (_) => token(prec(1, /https?:\/\/[^\s/$.?#].[^\s]*/i)),
 
     //  ./ ../ /home/user/file /etc/file ~/.local/bin/
-    file_path: (_) => token(prec(1, /(~?\/|\.\/|\.\.\/|[a-zA-Z]:\\)[^\s,;]+/)),
+    file_path: (_) => choice(
+      token(prec(1, /(~?\/|\.\/|\.\.\/|[a-zA-Z]:\\)[^\s,:;]+/)),
+      // lib/main.dart
+      token(/[^()\[\]{}="\s,:\-/]{3,20}\/[^\s,:;]+/),
+    ),
 
 
     ipv4: (_) =>

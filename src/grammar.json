@@ -673,15 +673,27 @@
       }
     },
     "file_path": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 1,
-        "content": {
-          "type": "PATTERN",
-          "value": "(~?\\/|\\.\\/|\\.\\.\\/|[a-zA-Z]:\\\\)[^\\s,;]+"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "PATTERN",
+              "value": "(~?\\/|\\.\\/|\\.\\.\\/|[a-zA-Z]:\\\\)[^\\s,:;]+"
+            }
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "[^()\\[\\]{}=\"\\s,:\\-/]{3,20}\\/[^\\s,:;]+"
+          }
         }
-      }
+      ]
     },
     "ipv4": {
       "type": "TOKEN",

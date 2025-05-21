@@ -34,6 +34,11 @@
     "fields": {}
   },
   {
+    "type": "file_path",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "info",
     "named": true,
     "fields": {}
@@ -474,10 +479,6 @@
   {
     "type": "false",
     "named": false
-  },
-  {
-    "type": "file_path",
-    "named": true
   },
   {
     "type": "info:",
