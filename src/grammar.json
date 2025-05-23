@@ -400,6 +400,20 @@
           {
             "type": "PATTERN",
             "value": "([01]?\\d|2[0-3]):[0-5]\\d:[0-5]\\d(\\.\\d+)?\\s?((UTC|GMT)([+-]\\d{2}:?\\d{2})?|(E|C|M|P)(S|D)T)?"
+          },
+          {
+            "type": "TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "\\d+(,\\d{3})*(ms|s)"
+            }
+          },
+          {
+            "type": "TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "\\d+((\\.)\\d+)*(ms|s)"
+            }
           }
         ]
       }
