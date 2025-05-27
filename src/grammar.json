@@ -672,6 +672,10 @@
         {
           "type": "SYMBOL",
           "name": "sha512"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "statistic"
         }
       ]
     },
@@ -818,6 +822,33 @@
           "value": "[a-f0-9]{128}"
         }
       }
+    },
+    "statistic": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "PATTERN",
+              "value": "\\d+\\/\\d+(M|%)?"
+            }
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "PATTERN",
+              "value": "\\d+%"
+            }
+          }
+        }
+      ]
     }
   },
   "extras": [

@@ -167,6 +167,10 @@
           "named": true
         },
         {
+          "type": "statistic",
+          "named": true
+        },
+        {
           "type": "url",
           "named": true
         },
@@ -176,6 +180,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "statistic",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "string_literal",

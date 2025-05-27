@@ -214,6 +214,7 @@ module.exports = grammar({
         $.sha256,
         $.sha384,
         $.sha512,
+        $.statistic,
       ),
 
     url: (_) => token(prec(1, /https?:\/\/[^\s/$.?#].[^\s]*/i)),
@@ -258,5 +259,8 @@ module.exports = grammar({
     sha384: (_) => token(prec(1, /[a-f0-9]{96}/i)),
 
     sha512: (_) => token(prec(1, /[a-f0-9]{128}/i)),
+
+    // 123/456 12/12% 12/12M 12%
+    statistic: (_) => choice(token(prec(1, /\d+\/\d+(M|%)?/)), token(prec(1, /\d+%/))),
   },
 });
