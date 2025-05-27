@@ -40,3 +40,41 @@ tree-sitter generate && tree-sitter highlight <FILE_PATH>.log
 [VSCode extension]: https://github.com/microsoft/vscode/tree/94c9ea46838a9a619aeafb7e8afd1170c967bb55/extensions/log
 [this repo]: https://github.com/lpraneis/tree-sitter-tracing-log
 [official doc]: https://tree-sitter.github.io/tree-sitter/creating-parsers#getting-started
+
+# Usage
+
+## Neovim
+
+1. Install with `nvim-treesitter` and add the following to your config
+
+```lua
+-- if you use branch = 'master'
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+parser_config.log = {
+  install_info = {
+    url = "https://github.com/Yo-oo/tree-sitter-log.git",
+    files = { "src/parser.c" },
+    branch = "main",
+    generate_requires_npm = false,
+    requires_generate_from_grammar = false,
+  },
+  filetype = "log",
+}
+```
+
+
+```lua
+-- if use branch = 'main'
+require("nvim-treesitter.parsers").log = {
+  install_info = {
+    url = "https://github.com/Yo-oo/tree-sitter-log.git",
+  },
+  tier = 1,
+}
+
+```
+
+2. Run command `:TSInstall log`
+    - if you are using branch = 'main' , make sure `require("nvim-treesitter.parsers").log` is set
+
+3. Move `queries/highlights.scm` to your nvim config dir `nvim/after/queries/log/highlights.scm`
