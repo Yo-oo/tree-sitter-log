@@ -23,18 +23,17 @@ tree-sitter generate
 tree-sitter generate && tree-sitter test
 ```
 
-### Highlight a file 
+### Highlight a file
 
 You will need to configure a theme for this, see [this link](https://tree-sitter.github.io/tree-sitter/syntax-highlighting).
-An example that defines the theme for the queries can be found in the file *config.json*.
+An example theme for the queries can be found in *config.json* — copy it to `~/.config/tree-sitter/config.json` to use it.
 
 ```sh
 tree-sitter generate && tree-sitter highlight <FILE_PATH>.log
 ```
 
 ## What can be improved
- 
-- add url parsing
+
 - *known_failures.log* tests
 
 [VSCode extension]: https://github.com/microsoft/vscode/tree/94c9ea46838a9a619aeafb7e8afd1170c967bb55/extensions/log
@@ -53,7 +52,7 @@ local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 parser_config.log = {
   install_info = {
     url = "https://github.com/Yo-oo/tree-sitter-log.git",
-    files = { "src/parser.c" },
+    files = { "src/parser.c", "src/scanner.c" },
     branch = "main",
     generate_requires_npm = false,
     requires_generate_from_grammar = false,
@@ -77,4 +76,22 @@ require("nvim-treesitter.parsers").log = {
 2. Run command `:TSInstall log`
     - if you are using branch = 'main' , make sure `require("nvim-treesitter.parsers").log` is set
 
-3. Move `queries/highlights.scm` to your nvim config dir `nvim/after/queries/log/highlights.scm`
+3. Move the query files to your nvim config dir:
+    - `queries/highlights.scm` → `nvim/after/queries/log/highlights.scm`
+    - `queries/injections.scm` → `nvim/after/queries/log/injections.scm` (enables JSON syntax highlighting inside log JSON blocks)
+
+## Rust
+
+Add to your `Cargo.toml`:
+
+```toml
+[dependencies]
+tree-sitter-log = { git = "https://github.com/Yo-oo/tree-sitter-log" }
+tree-sitter = "0.26"
+```
+
+```rust
+let mut parser = tree_sitter::Parser::new();
+parser.set_language(&tree_sitter_log::LANGUAGE.into()).unwrap();
+let tree = parser.parse(source_code, None).unwrap();
+```
