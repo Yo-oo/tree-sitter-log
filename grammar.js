@@ -207,6 +207,7 @@ module.exports = grammar({
     // Match all objects in the log which are not highlighted
     _objects: ($) =>
       choice(
+        $.json_block,
         $.url,
         $.file_path,
         $.ipv4,
@@ -222,7 +223,11 @@ module.exports = grammar({
         $.statistic,
       ),
 
-    url: (_) => token(prec(1, /https?:\/\/[^\s/$.?#].[^\s]*/i)),
+    url: ($) => seq($.url_base, optional($.url_query)),
+
+    url_base: (_) => token(prec(1, /https?:\/\/[^\s?#]*/i)),
+
+    url_query: (_) => token(/[?#][^\s]*/),
 
     //  ./ ../ /home/user/file /etc/file ~/.local/bin/
     file_path: (_) => choice(
@@ -267,5 +272,9 @@ module.exports = grammar({
 
     // 123/456 12/12% 12/12M 12%
     statistic: (_) => choice(token(prec(1, /\d+\/\d+(M|%)?/)), token(prec(1, /\d+%/))),
+
+    // Flat (non-nested) JSON object — prevents string_literal from matching inside
+    // Requires at least one "key": pattern to avoid matching non-JSON {…} blocks
+    json_block: (_) => token(prec(2, /\{"[^"]*":[^{}]*\}/)),
   },
 });

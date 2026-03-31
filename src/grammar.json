@@ -653,6 +653,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "json_block"
+        },
+        {
+          "type": "SYMBOL",
           "name": "url"
         },
         {
@@ -706,15 +710,43 @@
       ]
     },
     "url": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "url_base"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "url_query"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "url_base": {
       "type": "TOKEN",
       "content": {
         "type": "PREC",
         "value": 1,
         "content": {
           "type": "PATTERN",
-          "value": "https?:\\/\\/[^\\s/$.?#].[^\\s]*",
+          "value": "https?:\\/\\/[^\\s?#]*",
           "flags": "i"
         }
+      }
+    },
+    "url_query": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[?#][^\\s]*"
       }
     },
     "file_path": {
@@ -885,6 +917,17 @@
           }
         }
       ]
+    },
+    "json_block": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 2,
+        "content": {
+          "type": "PATTERN",
+          "value": "\\{\"[^\"]*\":[^{}]*\\}"
+        }
+      }
     }
   },
   "extras": [

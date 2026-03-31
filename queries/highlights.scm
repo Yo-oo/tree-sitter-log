@@ -8,10 +8,9 @@
 (string_literal) @string
 (number) @number
 (constant) @constant
-[
-  (url)
-  (file_path)
-] @string.special
+(url_base) @string.special
+(url_query) @comment
+(file_path) @string.special
 [
   (ipv4)
   (ipv6)
@@ -25,3 +24,4 @@
   (sha512)
 ] @number.float
 (statistic) @variable.builtin
+(json_block) @string.special

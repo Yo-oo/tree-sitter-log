@@ -73,6 +73,10 @@
           "named": true
         },
         {
+          "type": "json_block",
+          "named": true
+        },
+        {
           "type": "log_level",
           "named": true
         },
@@ -181,6 +185,25 @@
     "type": "trace",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "url",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "url_base",
+          "named": true
+        },
+        {
+          "type": "url_query",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "warn",
@@ -520,6 +543,10 @@
     "named": true
   },
   {
+    "type": "json_block",
+    "named": true
+  },
+  {
     "type": "mac",
     "named": true
   },
@@ -564,7 +591,11 @@
     "named": false
   },
   {
-    "type": "url",
+    "type": "url_base",
+    "named": true
+  },
+  {
+    "type": "url_query",
     "named": true
   },
   {
