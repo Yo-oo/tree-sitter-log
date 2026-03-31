@@ -1,0 +1,27 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "scope": "source.log",
+      "file-types": [
+        "log"
+      ],
+      "injection-regex": "log",
+      "highlights": "queries/highlights.scm",
+      "injections": "queries/injections.scm"
+    }
+  ],
+  "metadata": {
+    "version": "0.0.1",
+    "description": "Tree sitter for log files",
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "Tudy Gourmelen"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/Tudyx/tree-sitter-log"
+    }
+  }
+}

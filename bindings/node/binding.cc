@@ -1,28 +1,22 @@
 #include "tree_sitter/parser.h"
-#include <node.h>
-#include "nan.h"
 
-using namespace v8;
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
 
-extern "C" TSLanguage * tree_sitter_log();
+#include "napi.h"
 
-namespace {
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
 
-NAN_METHOD(New) {}
+extern "C" TSLanguage *tree_sitter_log();
 
-void Init(Local<Object> exports, Local<Object> module) {
-  Local<FunctionTemplate> tpl = Nan::New<FunctionTemplate>(New);
-  tpl->SetClassName(Nan::New("Language").ToLocalChecked());
-  tpl->InstanceTemplate()->SetInternalFieldCount(1);
-
-  Local<Function> constructor = Nan::GetFunction(tpl).ToLocalChecked();
-  Local<Object> instance = constructor->NewInstance(Nan::GetCurrentContext()).ToLocalChecked();
-  Nan::SetInternalFieldPointer(instance, 0, tree_sitter_log());
-
-  Nan::Set(instance, Nan::New("name").ToLocalChecked(), Nan::New("log").ToLocalChecked());
-  Nan::Set(module, Nan::New("exports").ToLocalChecked(), instance);
+Napi::Object Init(Napi::Env env, Napi::Object exports) {
+  exports["name"] = Napi::String::New(env, "log");
+  exports["language"] = Napi::External<TSLanguage>::New(env, (TSLanguage *)tree_sitter_log());
+  return exports;
 }
 
-NODE_MODULE(tree_sitter_log_binding, Init)
-
-}  // namespace
+NODE_API_MODULE(tree_sitter_log_binding, Init)

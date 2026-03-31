@@ -4,8 +4,10 @@
   "description": "Tree sitter for log files",
   "main": "bindings/node",
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build",
+    "build": "tree-sitter generate",
+    "build:node": "npm rebuild",
     "lint": "eslint grammar.js",
+    "install": "node-gyp-build",
     "parse": "tree-sitter parse",
     "test": "tree-sitter test",
     "test-windows": "tree-sitter test"
@@ -22,20 +24,20 @@
   "author": "Tudy Gourmelen",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.18.0"
+    "node-addon-api": "^8.7.0",
+    "node-gyp-build": "^4.8.4"
   },
   "devDependencies": {
     "eslint": "^8.53.0",
     "eslint-config-google": "^0.14.0",
-    "tree-sitter-cli": "^0.20.8"
+    "tree-sitter-cli": "^0.26.0"
   },
-  "tree-sitter": [
-    {
-      "scope": "source.log",
-      "file-types": [
-        "log"
-      ],
-      "injection-regex": "log"
+  "peerDependencies": {
+    "tree-sitter": "^0.22.0"
+  },
+  "peerDependenciesMeta": {
+    "tree-sitter": {
+      "optional": true
     }
-  ]
+  }
 }

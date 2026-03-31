@@ -3,3 +3,4 @@
 2024-03-01T10:00:02.456Z DEBUG [App]: user {"id":"u-1234","name":"alice","role":"admin","active":true}
 2024-03-01T10:00:03.789Z WARN  [App]: slow query {"duration_ms":4523,"table":"orders","rows":10000}
 2024-03-01T10:00:04.000Z INFO  [App]: span{field_id=3}: cache miss {"key":"user:42","ttl":300}
+2024-03-01T10:00:04.000Z INFO  [App]: span{field_id=3}: cache miss [{"key":"user:42","ttl":300},{"key":"user:42","ttl":300}]
