@@ -544,6 +544,10 @@
     "named": true
   },
   {
+    "type": "verbose:",
+    "named": false
+  },
+  {
     "type": "warning:",
     "named": false
   },

@@ -421,7 +421,6 @@ Don't highlight the wrong 'string'.
   (word)
   (word)
   (word)
-  (string_literal)
   (word)
   (string_literal))
 

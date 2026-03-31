@@ -38,6 +38,7 @@ module.exports = grammar({
         'Trace',
         'TRACE',
         '[trace]',
+        'verbose:',
         'Verbose',
         'VERBOSE',
         '[verbose]',

@@ -88,6 +88,10 @@
         },
         {
           "type": "STRING",
+          "value": "verbose:"
+        },
+        {
+          "type": "STRING",
           "value": "Verbose"
         },
         {
