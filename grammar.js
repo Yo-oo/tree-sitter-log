@@ -26,7 +26,7 @@ module.exports = grammar({
           $.constant,
           $._word_separator,
           $.word,
-          $.objects,
+          $._objects,
         ),
       ),
 
@@ -46,7 +46,6 @@ module.exports = grammar({
         '[vrb]',
         '[vb]',
         '[v]',
-        'V/',
       ),
     debug: (_) =>
       choice(
@@ -64,6 +63,7 @@ module.exports = grammar({
       choice(
         'information:',
         'info:',
+        'Info',
         'INFO',
         'INFORMATION',
         'NOTICE',
@@ -76,7 +76,6 @@ module.exports = grammar({
     warn: (_) =>
       choice(
         'warning:',
-        'warning ',
         'Warn',
         'WARN',
         'WARNING',
@@ -91,7 +90,6 @@ module.exports = grammar({
     error: (_) =>
       choice(
         'error:',
-        'error ',
         'Error',
         'ERROR',
         'ALERT',
@@ -113,7 +111,7 @@ module.exports = grammar({
     date: ($) => choice($.year_month_day, $.time),
     year_month_day: (_) =>
       token(
-        choice(
+        prec(2, choice(
           // 2023-01-01, 2023/01/01, 2023.01.01, 2023-01-01T
           /\d{4}[-\/\.](0[1-9]|1[0-2]|[A-Za-z]{3,9})[-\/\.](0[1-9]|[12][0-9]|3[01])(T)?/,
           // 2023/Jan/01
@@ -124,27 +122,26 @@ module.exports = grammar({
           /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(0[1-9]|[12][0-9]|3[01])/i,
           // Jan 01, 2023
           /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(0[1-9]|[12][0-9]|3[01]),?\s\d{4}/i,
-        ),
+        )),
       ),
 
     time: (_) =>
       token(
         choice(
           // 10:33:00 AM, 10:33:00 pm
-          /([01]?\d|2[0-3]):[0-5]\d:[0-5]\d(\.\d+)?\s?(AM|PM|am|pm)/,
+          /([01]?\d|2[0-3]):[0-5]\d:[0-5]\d([.,]\d+)?\s?(AM|PM|am|pm)/,
           // 10:33:00.960249 +08:00, 10:33:00.960249+08:00, 10:33:00.960249Z
-          /([01]?\d|2[0-3]):[0-5]\d:[0-5]\d(\.\d+)?\s?([zZ]|([+-](0\d|1\d|2[0-3]):[0-5]\d))/,
-          // 10:33:00.960249
-          /([01]?\d|2[0-3]):[0-5]\d:[0-5]\d(\.\d+)?/,
-          // 10:33:00
-          /([01]?\d|2[0-3]):[0-5]\d:[0-5]\d/,
+          /([01]?\d|2[0-3]):[0-5]\d:[0-5]\d([.,]\d+)?\s?([zZ]|([+-](0\d|1\d|2[0-3]):[0-5]\d))/,
           // 10:33:02.263 UTC, 10:33:02.263 UTC+03:00, 10:33:02.263 UTC-03:00, 10:33:02.263 EST
-          /([01]?\d|2[0-3]):[0-5]\d:[0-5]\d(\.\d+)?\s?((UTC|GMT)([+-]\d{2}:?\d{2})?|(E|C|M|P)(S|D)T)?/,
+          /([01]?\d|2[0-3]):[0-5]\d:[0-5]\d([.,]\d+)?\s?((UTC|GMT)([+-]\d{2}:?\d{2})?|(E|C|M|P)(S|D)T)/,
+          // 10:33:00.960249, 10:33:00
+          /([01]?\d|2[0-3]):[0-5]\d:[0-5]\d([.,]\d+)?/,
           // 1,000,000ms 20,000s 333,333ms
-          token(/\d+(,\d{3})*(ms|s)/),
+          /\d+(,\d{3})*(ms|s)/,
           // 1.2s, 30.3s, 40.5ms
-          token(/\d+((\.)\d+)*(ms|s)/),
-
+          /\d+(\.\d+)*(ms|s)/,
+          // 09:29 (HH:MM without seconds)
+          /([01]?\d|2[0-3]):[0-5]\d/,
         ),
       ),
 
@@ -200,7 +197,7 @@ module.exports = grammar({
     word: (_) => /[^()\[\]{}="\s,:\-/]+/,
 
     // Match all objects in the log which are not highlighted
-    objects: ($) =>
+    _objects: ($) =>
       choice(
         $.url,
         $.file_path,
@@ -238,7 +235,7 @@ module.exports = grammar({
     ipv6: (_) =>
       token(prec(1, /([0-9a-f]{1,4}:){7}[0-9a-f]{1,4}(\/\d{1,3})?/i)),
 
-    mac: (_) => token(prec(1, /([0-9a-f]{2}:){5}[0-9a-f]{2}/i)),
+    mac: (_) => token(prec(1, /([0-9a-f]{2}[:-]){5}[0-9a-f]{2}/i)),
 
     uuid: (_) =>
       token(

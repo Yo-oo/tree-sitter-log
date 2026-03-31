@@ -1,4 +1,5 @@
 {
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "log",
   "rules": {
     "log_file": {
@@ -36,7 +37,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "objects"
+            "name": "_objects"
           }
         ]
       }
@@ -116,10 +117,6 @@
         {
           "type": "STRING",
           "value": "[v]"
-        },
-        {
-          "type": "STRING",
-          "value": "V/"
         }
       ]
     },
@@ -177,6 +174,10 @@
         },
         {
           "type": "STRING",
+          "value": "Info"
+        },
+        {
+          "type": "STRING",
           "value": "INFO"
         },
         {
@@ -215,10 +216,6 @@
         {
           "type": "STRING",
           "value": "warning:"
-        },
-        {
-          "type": "STRING",
-          "value": "warning "
         },
         {
           "type": "STRING",
@@ -268,10 +265,6 @@
         {
           "type": "STRING",
           "value": "error:"
-        },
-        {
-          "type": "STRING",
-          "value": "error "
         },
         {
           "type": "STRING",
@@ -351,29 +344,36 @@
     "year_month_day": {
       "type": "TOKEN",
       "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "\\d{4}[-\\/\\.](0[1-9]|1[0-2]|[A-Za-z]{3,9})[-\\/\\.](0[1-9]|[12][0-9]|3[01])(T)?"
-          },
-          {
-            "type": "PATTERN",
-            "value": "\\d{4}[-\\/\\.](Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[-\\/\\.](0[1-9]|[12][0-9]|3[01])(T)?"
-          },
-          {
-            "type": "PATTERN",
-            "value": "(0[1-9]|[12][0-9]|3[01])[-\\/\\.](0[1-9]|1[0-2]|[A-Za-z]{3,9})[-\\/\\.]\\d{4}"
-          },
-          {
-            "type": "PATTERN",
-            "value": "(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s(0[1-9]|[12][0-9]|3[01])"
-          },
-          {
-            "type": "PATTERN",
-            "value": "(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s(0[1-9]|[12][0-9]|3[01]),?\\s\\d{4}"
-          }
-        ]
+        "type": "PREC",
+        "value": 2,
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "\\d{4}[-\\/\\.](0[1-9]|1[0-2]|[A-Za-z]{3,9})[-\\/\\.](0[1-9]|[12][0-9]|3[01])(T)?"
+            },
+            {
+              "type": "PATTERN",
+              "value": "\\d{4}[-\\/\\.](Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[-\\/\\.](0[1-9]|[12][0-9]|3[01])(T)?",
+              "flags": "i"
+            },
+            {
+              "type": "PATTERN",
+              "value": "(0[1-9]|[12][0-9]|3[01])[-\\/\\.](0[1-9]|1[0-2]|[A-Za-z]{3,9})[-\\/\\.]\\d{4}"
+            },
+            {
+              "type": "PATTERN",
+              "value": "(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s(0[1-9]|[12][0-9]|3[01])",
+              "flags": "i"
+            },
+            {
+              "type": "PATTERN",
+              "value": "(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s(0[1-9]|[12][0-9]|3[01]),?\\s\\d{4}",
+              "flags": "i"
+            }
+          ]
+        }
       }
     },
     "time": {
@@ -383,37 +383,31 @@
         "members": [
           {
             "type": "PATTERN",
-            "value": "([01]?\\d|2[0-3]):[0-5]\\d:[0-5]\\d(\\.\\d+)?\\s?(AM|PM|am|pm)"
+            "value": "([01]?\\d|2[0-3]):[0-5]\\d:[0-5]\\d([.,]\\d+)?\\s?(AM|PM|am|pm)"
           },
           {
             "type": "PATTERN",
-            "value": "([01]?\\d|2[0-3]):[0-5]\\d:[0-5]\\d(\\.\\d+)?\\s?([zZ]|([+-](0\\d|1\\d|2[0-3]):[0-5]\\d))"
+            "value": "([01]?\\d|2[0-3]):[0-5]\\d:[0-5]\\d([.,]\\d+)?\\s?([zZ]|([+-](0\\d|1\\d|2[0-3]):[0-5]\\d))"
           },
           {
             "type": "PATTERN",
-            "value": "([01]?\\d|2[0-3]):[0-5]\\d:[0-5]\\d(\\.\\d+)?"
+            "value": "([01]?\\d|2[0-3]):[0-5]\\d:[0-5]\\d([.,]\\d+)?\\s?((UTC|GMT)([+-]\\d{2}:?\\d{2})?|(E|C|M|P)(S|D)T)"
           },
           {
             "type": "PATTERN",
-            "value": "([01]?\\d|2[0-3]):[0-5]\\d:[0-5]\\d"
+            "value": "([01]?\\d|2[0-3]):[0-5]\\d:[0-5]\\d([.,]\\d+)?"
           },
           {
             "type": "PATTERN",
-            "value": "([01]?\\d|2[0-3]):[0-5]\\d:[0-5]\\d(\\.\\d+)?\\s?((UTC|GMT)([+-]\\d{2}:?\\d{2})?|(E|C|M|P)(S|D)T)?"
+            "value": "\\d+(,\\d{3})*(ms|s)"
           },
           {
-            "type": "TOKEN",
-            "content": {
-              "type": "PATTERN",
-              "value": "\\d+(,\\d{3})*(ms|s)"
-            }
+            "type": "PATTERN",
+            "value": "\\d+(\\.\\d+)*(ms|s)"
           },
           {
-            "type": "TOKEN",
-            "content": {
-              "type": "PATTERN",
-              "value": "\\d+((\\.)\\d+)*(ms|s)"
-            }
+            "type": "PATTERN",
+            "value": "([01]?\\d|2[0-3]):[0-5]\\d"
           }
         ]
       }
@@ -622,7 +616,7 @@
       "type": "PATTERN",
       "value": "[^()\\[\\]{}=\"\\s,:\\-/]+"
     },
-    "objects": {
+    "_objects": {
       "type": "CHOICE",
       "members": [
         {
@@ -686,7 +680,8 @@
         "value": 1,
         "content": {
           "type": "PATTERN",
-          "value": "https?:\\/\\/[^\\s/$.?#].[^\\s]*"
+          "value": "https?:\\/\\/[^\\s/$.?#].[^\\s]*",
+          "flags": "i"
         }
       }
     },
@@ -731,7 +726,8 @@
         "value": 1,
         "content": {
           "type": "PATTERN",
-          "value": "([0-9a-f]{1,4}:){7}[0-9a-f]{1,4}(\\/\\d{1,3})?"
+          "value": "([0-9a-f]{1,4}:){7}[0-9a-f]{1,4}(\\/\\d{1,3})?",
+          "flags": "i"
         }
       }
     },
@@ -742,7 +738,8 @@
         "value": 1,
         "content": {
           "type": "PATTERN",
-          "value": "([0-9a-f]{2}:){5}[0-9a-f]{2}"
+          "value": "([0-9a-f]{2}[:-]){5}[0-9a-f]{2}",
+          "flags": "i"
         }
       }
     },
@@ -753,7 +750,8 @@
         "value": 1,
         "content": {
           "type": "PATTERN",
-          "value": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+          "value": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+          "flags": "i"
         }
       }
     },
@@ -764,7 +762,8 @@
         "value": 1,
         "content": {
           "type": "PATTERN",
-          "value": "[a-f0-9]{32}"
+          "value": "[a-f0-9]{32}",
+          "flags": "i"
         }
       }
     },
@@ -775,7 +774,8 @@
         "value": 1,
         "content": {
           "type": "PATTERN",
-          "value": "[a-f0-9]{40}"
+          "value": "[a-f0-9]{40}",
+          "flags": "i"
         }
       }
     },
@@ -786,7 +786,8 @@
         "value": 1,
         "content": {
           "type": "PATTERN",
-          "value": "[a-f0-9]{56}"
+          "value": "[a-f0-9]{56}",
+          "flags": "i"
         }
       }
     },
@@ -797,7 +798,8 @@
         "value": 1,
         "content": {
           "type": "PATTERN",
-          "value": "[a-f0-9]{64}"
+          "value": "[a-f0-9]{64}",
+          "flags": "i"
         }
       }
     },
@@ -808,7 +810,8 @@
         "value": 1,
         "content": {
           "type": "PATTERN",
-          "value": "[a-f0-9]{96}"
+          "value": "[a-f0-9]{96}",
+          "flags": "i"
         }
       }
     },
@@ -819,7 +822,8 @@
         "value": 1,
         "content": {
           "type": "PATTERN",
-          "value": "[a-f0-9]{128}"
+          "value": "[a-f0-9]{128}",
+          "flags": "i"
         }
       }
     },
@@ -861,6 +865,6 @@
   "precedences": [],
   "externals": [],
   "inline": [],
-  "supertypes": []
+  "supertypes": [],
+  "reserved": {}
 }
-
