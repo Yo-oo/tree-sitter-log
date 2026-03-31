@@ -570,3 +570,38 @@ span{field_id="3"}:
   (word)
   (string_literal)
   (number))
+
+================================================================================
+URL with and without query parameters
+================================================================================
+
+https://api.example.com/users
+https://api.example.com/users?page=1&limit=50
+https://example.com/path#section
+--------------------------------------------------------------------------------
+
+(log_file
+  (url
+    (url_base))
+  (url
+    (url_base)
+    (url_query))
+  (url
+    (url_base)
+    (url_query)))
+
+================================================================================
+JSON block detection
+================================================================================
+
+{"method":"GET","path":"/api/users","status":200}
+{"error":"timeout","retries":3}
+span{field_id=3}
+--------------------------------------------------------------------------------
+
+(log_file
+  (json_block)
+  (json_block)
+  (word)
+  (word)
+  (number))

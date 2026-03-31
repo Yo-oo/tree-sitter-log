@@ -227,7 +227,7 @@ module.exports = grammar({
 
     url_base: (_) => token(prec(1, /https?:\/\/[^\s?#]*/i)),
 
-    url_query: (_) => token(/[?#][^\s]*/),
+    url_query: (_) => token(prec(1, /[?#][^\s]*/)),
 
     //  ./ ../ /home/user/file /etc/file ~/.local/bin/
     file_path: (_) => choice(

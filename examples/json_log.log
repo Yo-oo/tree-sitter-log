@@ -1,0 +1,5 @@
+2024-03-01T10:00:00.000Z INFO  [App]: request {"method":"GET","path":"/api/users","status":200}
+2024-03-01T10:00:01.123Z ERROR [App]: failed {"error":"connection timeout","retries":3,"host":"db.internal"}
+2024-03-01T10:00:02.456Z DEBUG [App]: user {"id":"u-1234","name":"alice","role":"admin","active":true}
+2024-03-01T10:00:03.789Z WARN  [App]: slow query {"duration_ms":4523,"table":"orders","rows":10000}
+2024-03-01T10:00:04.000Z INFO  [App]: span{field_id=3}: cache miss {"key":"user:42","ttl":300}

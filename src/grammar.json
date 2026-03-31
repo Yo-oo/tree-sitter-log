@@ -745,8 +745,12 @@
     "url_query": {
       "type": "TOKEN",
       "content": {
-        "type": "PATTERN",
-        "value": "[?#][^\\s]*"
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[?#][^\\s]*"
+        }
       }
     },
     "file_path": {
