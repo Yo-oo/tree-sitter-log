@@ -360,6 +360,34 @@
     "named": false
   },
   {
+    "type": "[DEBUG]",
+    "named": false
+  },
+  {
+    "type": "[ERROR]",
+    "named": false
+  },
+  {
+    "type": "[INFO]",
+    "named": false
+  },
+  {
+    "type": "[TRACE]",
+    "named": false
+  },
+  {
+    "type": "[VERBOSE]",
+    "named": false
+  },
+  {
+    "type": "[WARNING]",
+    "named": false
+  },
+  {
+    "type": "[WARN]",
+    "named": false
+  },
+  {
     "type": "[critical]",
     "named": false
   },

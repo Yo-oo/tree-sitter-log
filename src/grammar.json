@@ -84,6 +84,10 @@
         },
         {
           "type": "STRING",
+          "value": "[TRACE]"
+        },
+        {
+          "type": "STRING",
           "value": "[trace]"
         },
         {
@@ -97,6 +101,10 @@
         {
           "type": "STRING",
           "value": "VERBOSE"
+        },
+        {
+          "type": "STRING",
+          "value": "[VERBOSE]"
         },
         {
           "type": "STRING",
@@ -138,6 +146,10 @@
         {
           "type": "STRING",
           "value": "DEBUG"
+        },
+        {
+          "type": "STRING",
+          "value": "[DEBUG]"
         },
         {
           "type": "STRING",
@@ -186,6 +198,10 @@
         },
         {
           "type": "STRING",
+          "value": "[INFO]"
+        },
+        {
+          "type": "STRING",
           "value": "INFORMATION"
         },
         {
@@ -231,7 +247,15 @@
         },
         {
           "type": "STRING",
+          "value": "[WARN]"
+        },
+        {
+          "type": "STRING",
           "value": "WARNING"
+        },
+        {
+          "type": "STRING",
+          "value": "[WARNING]"
         },
         {
           "type": "STRING",
@@ -277,6 +301,10 @@
         {
           "type": "STRING",
           "value": "ERROR"
+        },
+        {
+          "type": "STRING",
+          "value": "[ERROR]"
         },
         {
           "type": "STRING",
