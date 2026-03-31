@@ -400,8 +400,7 @@ DEBUG Username was Some("username") "clasic string literal" foo "key:\"escaped s
   (word)
   (string_literal)
   (string_literal)
-  (string_literal)
-  (string_literal))
+  (json_block))
 
 ================================================================================
 Interpreted single quoted string literal

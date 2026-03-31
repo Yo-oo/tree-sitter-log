@@ -15,6 +15,8 @@ module.exports = grammar({
   name: 'log',
   // word: $ => $.word,
 
+  externals: ($) => [$.json_block],
+
   rules: {
     log_file: ($) =>
       repeat(
@@ -273,8 +275,7 @@ module.exports = grammar({
     // 123/456 12/12% 12/12M 12%
     statistic: (_) => choice(token(prec(1, /\d+\/\d+(M|%)?/)), token(prec(1, /\d+%/))),
 
-    // Flat (non-nested) JSON object — prevents string_literal from matching inside
-    // Requires at least one "key": pattern to avoid matching non-JSON {…} blocks
-    json_block: (_) => token(prec(2, /\{"[^"]*":[^{}]*\}/)),
+    // json_block is handled by the external scanner (src/scanner.c)
+    // Supports arbitrary nesting for both objects ({...}) and arrays ([...])
   },
 });

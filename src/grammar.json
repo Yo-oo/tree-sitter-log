@@ -921,17 +921,6 @@
           }
         }
       ]
-    },
-    "json_block": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 2,
-        "content": {
-          "type": "PATTERN",
-          "value": "\\{\"[^\"]*\":[^{}]*\\}"
-        }
-      }
     }
   },
   "extras": [
@@ -942,7 +931,12 @@
   ],
   "conflicts": [],
   "precedences": [],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "json_block"
+    }
+  ],
   "inline": [],
   "supertypes": [],
   "reserved": {}
