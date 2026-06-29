@@ -113,6 +113,10 @@
           "named": true
         },
         {
+          "type": "source_location",
+          "named": true
+        },
+        {
           "type": "statistic",
           "named": true
         },
@@ -576,6 +580,10 @@
   },
   {
     "type": "sha512",
+    "named": true
+  },
+  {
+    "type": "source_location",
     "named": true
   },
   {

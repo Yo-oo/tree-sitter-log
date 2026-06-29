@@ -661,6 +661,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "source_location"
+        },
+        {
+          "type": "SYMBOL",
           "name": "file_path"
         },
         {
@@ -708,6 +712,17 @@
           "name": "statistic"
         }
       ]
+    },
+    "source_location": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 2,
+        "content": {
+          "type": "PATTERN",
+          "value": "[A-Za-z0-9_\\-\\/.]+\\.[A-Za-z]{1,6}:\\d+:\\d+"
+        }
+      }
     },
     "url": {
       "type": "SEQ",

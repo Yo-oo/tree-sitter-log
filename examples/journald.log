@@ -1,0 +1,2 @@
+Jun 29 10:33:01 myhost sshd[1234]: Accepted publickey for root from 10.0.0.5 port 54321 ssh2
+Jun 29 10:33:02 myhost kernel: [12345.678] usb 1-1: new high-speed USB device

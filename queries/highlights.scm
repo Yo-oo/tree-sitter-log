@@ -25,3 +25,4 @@
 ] @number.float
 (statistic) @variable.builtin
 (json_block) @string.special
+(source_location) @string.special

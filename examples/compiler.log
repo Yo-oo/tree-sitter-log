@@ -1,0 +1,2 @@
+src/main.rs:42:5: error[E0382]: borrow of moved value: `x`
+main.c:10:13: warning: unused variable 'foo' [-Wunused-variable]

@@ -1,0 +1,5 @@
+2026-06-29 10:33:01,123 ERROR [main] com.example.Service - Failed to process
+java.lang.NullPointerException: Cannot invoke method
+	at com.example.Service.process(Service.java:42)
+	at com.example.Main.run(Main.java:10)
+Caused by: java.io.IOException: broken pipe

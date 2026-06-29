@@ -1,0 +1,2 @@
+level=info ts=2026-06-29T10:33:01Z msg="request done" status=200 duration=12.3ms user_id=42
+time="2026-06-29T10:33:01Z" level=error msg="db timeout" error="connection refused" retries=3

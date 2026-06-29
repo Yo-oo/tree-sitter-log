@@ -211,6 +211,7 @@ module.exports = grammar({
       choice(
         $.json_block,
         $.url,
+        $.source_location,
         $.file_path,
         $.ipv4,
         $.ipv6,
@@ -224,6 +225,12 @@ module.exports = grammar({
         $.sha512,
         $.statistic,
       ),
+
+    // file:line:col compiler/stack-trace locations, e.g. main.c:10:13, src/main.rs:42:5
+    // High prec so the line:col digits aren't mis-parsed as an HH:MM time.
+    // Requires two numbers to avoid colliding with host:port (e.g. example.com:8080).
+    source_location: (_) =>
+      token(prec(2, /[A-Za-z0-9_\-\/.]+\.[A-Za-z]{1,6}:\d+:\d+/)),
 
     url: ($) => seq($.url_base, optional($.url_query)),
 

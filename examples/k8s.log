@@ -1,0 +1,2 @@
+2026-06-29T10:33:01.123456789Z stdout F {"level":"info","msg":"started","pod":"web-7d9f"}
+E0629 10:33:01.123456    1 controller.go:123] failed to sync: timeout
