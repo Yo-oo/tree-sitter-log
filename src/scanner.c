@@ -43,13 +43,18 @@ static bool scan_json_value(TSLexer *lexer) {
     if (next != '{' && next != '[' && next != '"' && next != ']') return false;
   }
 
-  // Bracket-counting scan with string tracking
+  // Bracket-counting scan with string tracking.
+  // Bail out after too many newlines without closing so an unterminated
+  // '{'/'[' in a large file doesn't trigger an O(n^2) scan-to-EOF.
+  const int MAX_LINES = 256;
   int depth = 1;
+  int lines = 0;
   bool in_string = false;
   bool escaped = false;
 
   while (depth > 0 && !lexer->eof(lexer)) {
     char c = lexer->lookahead;
+    if (c == '\n' && ++lines > MAX_LINES) return false;
     lexer->advance(lexer, false);
 
     if (escaped) {

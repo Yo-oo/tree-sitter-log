@@ -231,9 +231,12 @@ module.exports = grammar({
 
     url_query: (_) => token(prec(1, /[?#][^\s]*/)),
 
-    //  ./ ../ /home/user/file /etc/file ~/.local/bin/
+    //  ./ ../ ~/.local/bin/ C:\dir (unambiguous path prefixes, single segment ok)
     file_path: (_) => choice(
-      token(prec(1, /(~?\/|\.\/|\.\.\/|[a-zA-Z]:\\)[^\s,:;]+/)),
+      token(prec(1, /(~\/|\.\/|\.\.\/|[a-zA-Z]:\\)[^\s,:;]+/)),
+      // bare absolute path needs >=2 segments so a lone "/F" stays a word
+      // (e.g. /etc/passwd, /ip4/127.0.0.1/tcp/4001/tls)
+      token(prec(1, /\/[^\s,:;/]+\/[^\s,:;]+/)),
       // lib/main.dart
       token(/[^()\[\]{}="\s,:\-/]{3,20}\/[^\s,:;]+/),
     ),
