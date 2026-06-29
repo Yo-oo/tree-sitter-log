@@ -1,7 +1,5 @@
 {
-  "parser-directories": [
-    "/home/teddy/dev/rust"
-  ],
+  "parser-directories": [],
   "theme": {
     "embedded": null,
     "number": {

@@ -2,6 +2,7 @@
   "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
   "grammars": [
     {
+      "name": "log",
       "scope": "source.log",
       "file-types": [
         "log"
@@ -18,10 +19,13 @@
     "authors": [
       {
         "name": "Tudy Gourmelen"
+      },
+      {
+        "name": "yo"
       }
     ],
     "links": {
-      "repository": "https://github.com/Tudyx/tree-sitter-log"
+      "repository": "https://github.com/Yo-oo/tree-sitter-log"
     }
   }
 }

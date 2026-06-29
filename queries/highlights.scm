@@ -1,4 +1,4 @@
-(info) @comment
+(info) @comment.note
 (warn) @keyword.operator
 (error) @keyword
 (trace) @comment
