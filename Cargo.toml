@@ -4,7 +4,7 @@ description = "log grammar for the tree-sitter parsing library"
 version = "0.0.1"
 keywords = ["incremental", "parsing", "log"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/Tudyx/tree-sitter-log"
+repository = "https://github.com/Yo-oo/tree-sitter-log"
 edition = "2021"
 license = "MIT"
 
