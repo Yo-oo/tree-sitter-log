@@ -23,6 +23,7 @@ module.exports = grammar({
         choice(
           $.log_level,
           $.date,
+          $.pair,
           $.string_literal,
           $.number,
           $.constant,
@@ -31,6 +32,24 @@ module.exports = grammar({
           $._objects,
         ),
       ),
+
+    // logfmt-style key=value (no spaces around '='), e.g. level=info status=200
+    // msg="request done". The key reuses `word`; token.immediate keeps the '='
+    // glued to the key so a spaced `a = b` stays plain words.
+    pair: ($) =>
+      prec.right(
+        seq(
+          field('key', $.word),
+          token.immediate('='),
+          optional(field('value', $._pair_value)),
+        ),
+      ),
+
+    _pair_value: ($) => choice($.string_literal, $.pair_value),
+
+    // unquoted value: runs to whitespace but stops at structural closers/commas
+    // so an embedded key=value} doesn't swallow the closing brace
+    pair_value: (_) => token.immediate(/[^\s)\]},]+/),
 
     // Log level detection.
     log_level: ($) => choice($.trace, $.debug, $.info, $.warn, $.error),

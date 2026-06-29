@@ -563,11 +563,13 @@ span{field_id="3"}:
 
 (log_file
   (word)
+  (pair
+    key: (word)
+    value: (pair_value))
   (word)
-  (number)
-  (word)
-  (word)
-  (string_literal)
+  (pair
+    key: (word)
+    value: (pair_value))
   (number))
 
 ================================================================================
@@ -602,8 +604,9 @@ span{field_id=3}
   (json_block)
   (json_block)
   (word)
-  (word)
-  (number))
+  (pair
+    key: (word)
+    value: (pair_value)))
 
 ================================================================================
 wrong hexdigits
@@ -687,3 +690,21 @@ Nginx access fragment
   (ipv4)
   (string_literal)
   (number))
+
+================================================================================
+Logfmt key=value pairs
+================================================================================
+
+level=info msg="request done" status=200
+--------------------------------------------------------------------------------
+
+(log_file
+  (pair
+    key: (word)
+    value: (pair_value))
+  (pair
+    key: (word)
+    value: (string_literal))
+  (pair
+    key: (word)
+    value: (pair_value)))

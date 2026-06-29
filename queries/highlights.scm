@@ -26,3 +26,6 @@
 (statistic) @variable.builtin
 (json_block) @string.special
 (source_location) @string.special
+(pair
+  key: (word) @property
+  value: [(pair_value) (string_literal)] @string) @string.special
